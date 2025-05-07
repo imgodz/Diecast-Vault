@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:backgroundTint="#111"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="12dp"
+    android:elevation="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/imageViewSearchResult"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:background="@android:color/darker_gray"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textSearchName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Teal" />
+
+            <TextView
+                android:id="@+id/textSearchMaker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#DDD" />
+
+            <TextView
+                android:id="@+id/textSearchColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#DDD" />
+
+            <TextView
+                android:id="@+id/textSearchSeriesCumCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#DDD" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

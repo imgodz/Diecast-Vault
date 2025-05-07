@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/diecastCardLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#121212"
+    android:layout_gravity="center"
+    android:elevation="8dp"
+    android:layout_margin="12dp">
+
+    <ImageView
+        android:id="@+id/cardImage"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:background="#333333" />
+
+    <TextView
+        android:id="@+id/cardName"
+        android:text="Name"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="#00CCCC"
+        android:layout_marginTop="12dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <TextView
+        android:id="@+id/cardMaker"
+        android:text="Maker"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/cardRelease"
+        android:text="Release Info"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/cardCategory"
+        android:text="Category"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/cardColor"
+        android:text="Colors"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/cardLivery"
+        android:text="Livery"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/cardPrice"
+        android:text="Price and Date"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="24dp" />
+
+</LinearLayout>

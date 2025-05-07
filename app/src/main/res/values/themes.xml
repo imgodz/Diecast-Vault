@@ -1,0 +1,26 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TreasureTrove" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+    <style name="DialogTheme.BlackTeal" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- Dialog background -->
+        <item name="android:background">@color/black</item>
+
+        <!-- Title & message -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/Teal</item>
+
+        <!-- Buttons -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <style name="DialogButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/Teal</item>
+
+    </style>
+
+    <style name="Theme.TreasureTrove" parent="Base.Theme.TreasureTrove" />
+</resources>

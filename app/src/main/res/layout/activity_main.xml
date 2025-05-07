@@ -1,0 +1,110 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:elevation="4dp"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:padding="16dp">
+
+        <!-- Tiles -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:id="@+id/tileRandom"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/tile_background"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="🎲"
+                    android:textSize="36sp"
+                    android:textColor="#00CCCC"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+                <TextView
+                    android:text="Pick Random"
+                    android:textColor="#00CCCC"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tileFilter"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/tile_background"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="🔍"
+                    android:textSize="36sp"
+                    android:textColor="#00CCCC"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+                <TextView
+                    android:text="Filtered Search"
+                    android:textColor="#00CCCC"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Stats -->
+        <TextView
+            android:id="@+id/textStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="30dp"
+            android:text="Loading stats..."
+            android:lineSpacingExtra="4dp"/>
+    </LinearLayout>
+
+    <!-- FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonAddDiecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/add"
+        app:tint="#000000"
+        app:backgroundTint="#00CCCC"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

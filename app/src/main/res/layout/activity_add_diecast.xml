@@ -1,0 +1,210 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/add_diecast_layout"
+    android:background="@color/black"
+    android:paddingTop="24dp"
+    android:paddingBottom="16dp"
+    tools:ignore="RtlSymmetry">
+
+    <LinearLayout
+
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+
+            android:id="@+id/customToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:elevation="4dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <!-- Diecast Name -->
+        <EditText
+            android:id="@+id/editTextName"
+            android:hint="@string/diecast_name"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords|textPersonName"
+            tools:ignore="Autofill,TextFields" />
+
+        <EditText
+            android:id="@+id/editTextReleaseInfo"
+            android:hint="@string/release_info_e_g_1_250_2024"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords|textPersonName"
+            tools:ignore="Autofill,TextFields" />
+
+        <!-- Model Maker -->
+        <EditText
+            android:id="@+id/editTextModelMaker"
+            android:hint="@string/model_maker"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords|textPersonName"
+            tools:ignore="Autofill,TextFields" />
+
+        <!-- Price -->
+        <EditText
+            android:id="@+id/editTextPrice"
+            android:hint="@string/price_bought_for"
+            android:inputType="numberDecimal"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="Autofill,TextFields" />
+
+        <!-- Purchase Date -->
+        <EditText
+            android:id="@+id/editTextPurchaseDate"
+            android:hint="@string/purchase_date_mm_yyyy"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords|textPersonName"
+            tools:ignore="Autofill,TextFields" />
+
+        <!-- Primary Color -->
+        <EditText
+            android:id="@+id/editTextPrimaryColor"
+            android:hint="@string/primary_color"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords|textPersonName"
+            tools:ignore="Autofill,TextFields" />
+
+        <!-- Secondary Color (Optional) -->
+        <EditText
+            android:id="@+id/editTextSecondaryColor"
+            android:hint="@string/secondary_color_optional"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords|textPersonName"
+            tools:ignore="Autofill,TextFields" />
+
+        <!-- Livery (Optional) -->
+        <EditText
+            android:id="@+id/editTextLivery"
+            android:hint="@string/livery_optional"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:inputType="textCapWords|textPersonName"
+            tools:ignore="Autofill" />
+
+        <!-- Set/Series -->
+        <Spinner
+            android:id="@+id/spinnerSetSeries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:spinnerMode="dropdown"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Category -->
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Teal"
+            android:layout_marginStart="16dp"
+            android:spinnerMode="dropdown"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Image Picker -->
+        <Button
+            android:id="@+id/buttonSelectImage"
+            android:text="@string/select_image"
+            android:textColor="@color/Teal"
+            android:backgroundTint="@color/dark_charcoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Image Display -->
+        <ImageView
+            android:id="@+id/imagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:scaleType="centerCrop"
+            android:background="@color/dark_charcoal"
+            tools:ignore="ContentDescription" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/Teal"
+            android:text="@string/save_diecast"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+</ScrollView>

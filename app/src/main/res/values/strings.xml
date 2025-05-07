@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Diecast Vault</string>
+    <string name="diecast_name">Diecast Name</string>
+    <string name="release_info_e_g_1_250_2024">Release Info (e.g. 1/250, 2024)</string>
+    <string name="model_maker">Model Maker</string>
+    <string name="price_bought_for">Price Bought For</string>
+    <string name="purchase_date_mm_yyyy">Purchase Date (eg. Apr 2025)</string>
+    <string name="primary_color">Primary Color</string>
+    <string name="secondary_color_optional">Secondary Color</string>
+    <string name="livery_optional">Livery</string>
+    <string name="select_image">Select Image</string>
+    <string name="save_diecast">Save Diecast</string>
+    <string name="add_diecast">Add Diecast</string>
+    <string name="search">Search</string>
+    <string name="info">Info</string>
+    <string name="no_diecasts_found">No diecasts found</string>
+    <string name="info_text">This app helps you manage your diecast collection.\n\n\t• Tap + to add a diecast.\n\t• View, filter, and search your collection.\n \t• Images and details are stored locally.\n\t• Search using name or model maker or category.\n\t• 4:3 Ratio Images are recommended.\n • Click the Card Button in the details screen to generate card to share\n\n\nVersion: %1$s (Build %2$d)\n\n\nContact k.akhil123123@gmail.com for any suggestions, bugs etc.</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="delete">Delete</string>
+    <string name="card">Card</string>
+    <string-array name="set_series_options">
+        <item>Mainline</item>
+        <item>Premium</item>
+        <item>Semi-Premium</item>
+        <item>Themed</item>
+        <item>Team Transport</item>
+        <item>Car Culture</item>
+        <item>Exclusives</item>
+        <item>Part of 5 Pack</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="category_options">
+        <item>Car</item>
+        <item>Super Car</item>
+        <item>Sport Car</item>
+        <item>Race Car</item>
+        <item>Rally Car</item>
+        <item>Offroad</item>
+        <item>Truck</item>
+        <item>Vintage</item>
+        <item>Electric</item>
+        <item>Aviation</item>
+        <item>Transports</item>
+        <item>Bus/Vans</item>
+        <item>Other</item>
+    </string-array>
+</resources>
