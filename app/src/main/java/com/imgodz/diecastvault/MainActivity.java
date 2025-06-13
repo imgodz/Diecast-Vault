@@ -24,7 +24,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private DiecastviewModel diecastViewModel;
-    private TextView textStats;
+    private TextView textDiecasts, textMostExpensive, textMostCommonMaker, textTotalSpent;
     private Integer diecastCount = null;
     private String mostCommonMaker = null;
     private Integer totalSpent = null;
@@ -49,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout tileRandom = findViewById(R.id.tileRandom);
         LinearLayout tileFilter = findViewById(R.id.tileFilter);
 
-        textStats = findViewById(R.id.textStats);
+        textDiecasts = findViewById(R.id.textDiecast);
+        textMostExpensive = findViewById(R.id.textMostExpensive);
+        textMostCommonMaker = findViewById(R.id.textMostCommon);
+        textTotalSpent = findViewById(R.id.textSpent);
 
         Toolbar toolbar = findViewById(R.id.customToolbar);
         setSupportActionBar(toolbar);
@@ -102,14 +105,19 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        String maxInfo = mostExpensive.getName() + " (₹" + mostExpensive.getPrice() + ")";
+        String mostExpensiveName = mostExpensive.getName().length() > 15 ? mostExpensive.getName().substring(0, 15) + "..." : mostExpensive.getName();
+        String maxInfo = mostExpensiveName + " (₹ " + mostExpensive.getPrice() + ")";
 
         String statsText = "Total Diecasts Collected: " + diecastCount + "\n" +
                 "Most Common Model Maker: " + mostCommonMaker + "\n" +
                 "Total Spent: ₹" + totalSpent + "\n" +
                 "Most Expensive: " + maxInfo + "\n";
 
-        textStats.setText(statsText);
+        String totalString = diecastCount > 1 ? " Diecasts" : " Diecast";
+        textDiecasts.setText(diecastCount.toString() + totalString);
+        textMostCommonMaker.setText(mostCommonMaker);
+        textTotalSpent.setText("₹ " + totalSpent);
+        textMostExpensive.setText(maxInfo);
     }
 
     @Override

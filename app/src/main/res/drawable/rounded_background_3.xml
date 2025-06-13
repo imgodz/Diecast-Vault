@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Bottom half (e.g., Black) full background with rounded corners -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#121212"/>
+            <corners android:radius="24dp"/>
+        </shape>
+    </item>
+
+    <!-- Top half overlay (Teal) with rounded top corners -->
+    <item android:top="0dp" android:bottom="80dp"> <!-- Adjust bottom to control the teal height -->
+        <shape android:shape="rectangle">
+            <solid android:color="@color/Teal"/>
+            <corners android:topLeftRadius="24dp" android:topRightRadius="24dp"/>
+        </shape>
+    </item>
+</layer-list>

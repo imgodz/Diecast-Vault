@@ -36,7 +36,11 @@ public interface DiecastDAO {
     @Query("SELECT SUM(price) FROM diecast_table")
     LiveData<Integer> getTotalSpent();
 
-    @Query("SELECT * FROM diecast_table ORDER BY price DESC LIMIT 1")
+    @Query("SELECT * \n" +
+            "FROM diecast_table \n" +
+            "WHERE price = (SELECT MAX(price) FROM diecast_table) \n" +
+            "ORDER BY RANDOM() \n" +
+            "LIMIT 1;")
     LiveData<Diecast> getMostExpensive();
 
     @Query("SELECT * FROM diecast_table WHERE id = :id LIMIT 1")
