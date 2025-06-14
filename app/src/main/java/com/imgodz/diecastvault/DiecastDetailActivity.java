@@ -496,21 +496,39 @@ public class DiecastDetailActivity extends AppCompatActivity {
     }
 
     private Bitmap createWatermarkedBitmap(View view) {
+        // Measure and layout the view
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
 
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
+        // Create the bitmap from the view
+        Bitmap originalBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(originalBitmap);
         view.draw(canvas);
 
-        // Add watermark
+        // Add watermark at bottom-right
+        String watermark = "Created from Diecast Vault";
         Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#66d3d3d3"));
-        paint.setTextSize(36);
-        canvas.drawText("Diecast Vault", bitmap.getWidth()-30, bitmap.getHeight()-20, paint);
+        paint.setColor(Color.parseColor("#B3B3B3")); // Light gray
+        paint.setTextSize(32); // Watermark text size
+        paint.setAntiAlias(true);
 
-        return bitmap;
+        float padding = 16f;
+        float textWidth = paint.measureText(watermark);
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+
+        float x = originalBitmap.getWidth() - textWidth - padding;
+        float y = originalBitmap.getHeight() - padding - fontMetrics.bottom;
+
+        canvas.drawText(watermark, x, y, paint);
+
+        // --- Resize to fixed rectangular card size ---
+        int targetWidth = 580;
+        int targetHeight = 640;  // You can tweak this for the shape you want
+
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true);
+
+        return resizedBitmap;
     }
 
     // Helper interface for callbacks
