@@ -435,41 +435,87 @@ public class DiecastDetailActivity extends AppCompatActivity {
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this, R.style.DialogTheme_BlackTeal);
         builder.setView(cardView)
-                .setPositiveButton("Save as Image", (dialog, which) -> saveCardAsImage(cardView))
+                .setPositiveButton("Save", (dialog, which) -> saveCardAsImage(cardView, new SaveCallback() {
+                    @Override public void onImageSaved(Uri uri) {
+                        Toast.makeText(DiecastDetailActivity.this, "Saved to gallery", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override public void onSaveFailed() {
+                        Toast.makeText(DiecastDetailActivity.this, "Save failed", Toast.LENGTH_SHORT).show();
+                    }
+                }))
+                .setNeutralButton("Share", (dialog, which) -> shareCard(cardView))
                 .setNegativeButton("Close", null)
                 .show();
     }
 
-    private void saveCardAsImage(View view) {
-        // 1. Create bitmap from view
-        Bitmap originalBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(originalBitmap);
+    private void shareCard(View view) {
+        // 1. First save the image (reusing your existing method)
+        saveCardAsImage(view, new SaveCallback() {
+            @Override
+            public void onImageSaved(Uri imageUri) {
+                // 2. After saving, immediately share it
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("image/png");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                startActivity(Intent.createChooser(shareIntent, "Share Diecast Card"));
+            }
+
+            @Override
+            public void onSaveFailed() {
+                Toast.makeText(DiecastDetailActivity.this,
+                        "Failed to prepare image for sharing",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Modified version of your save method with callback
+    private void saveCardAsImage(View view, SaveCallback callback) {
+        try {
+            // Your existing bitmap creation and watermarking code...
+            Bitmap watermarkedBitmap = createWatermarkedBitmap(view);
+
+            // Save using MediaStore
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, "Diecast_Share_" + System.currentTimeMillis() + ".png");
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/Diecast Vault");
+
+            Uri imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+            try (OutputStream outputStream = getContentResolver().openOutputStream(imageUri)) {
+                watermarkedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                callback.onImageSaved(imageUri);  // Notify success with URI
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            callback.onSaveFailed();  // Notify failure
+        }
+    }
+
+    private Bitmap createWatermarkedBitmap(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
 
-        // 2. Draw watermark text on a copy
-        Bitmap watermarkedBitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        Canvas watermarkCanvas = new Canvas(watermarkedBitmap);
+        // Add watermark
         Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#66d3d3d3")); // semi-transparent white
+        paint.setColor(Color.parseColor("#66d3d3d3"));
         paint.setTextSize(36);
-        paint.setAntiAlias(true);
-        paint.setTextAlign(Paint.Align.RIGHT);
-        watermarkCanvas.drawText("Created from Diecast Vault", watermarkedBitmap.getWidth() - 30, watermarkedBitmap.getHeight() - 20, paint);
+        canvas.drawText("Diecast Vault", bitmap.getWidth()-30, bitmap.getHeight()-20, paint);
 
-        // 3. Save using MediaStore (public gallery)
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, "DiecastCard_" + System.currentTimeMillis() + ".png");
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-        values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/Diecast Vault");
+        return bitmap;
+    }
 
-        Uri imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-        try (OutputStream outputStream = getContentResolver().openOutputStream(imageUri)) {
-            watermarkedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            Toast.makeText(this, "Card saved to gallery", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
-        }
+    // Helper interface for callbacks
+    interface SaveCallback {
+        void onImageSaved(Uri imageUri);
+        void onSaveFailed();
     }
 }
