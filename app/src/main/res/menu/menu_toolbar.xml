@@ -21,8 +21,15 @@
 <!--        app:showAsAction="ifRoom" />-->
 
     <item
+        android:id="@+id/action_imAndExport"
+        android:icon="@drawable/import_and_export"
+        android:title="Import/Export"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/action_info"
         android:icon="@drawable/info"
         android:title="@string/info"
         app:showAsAction="ifRoom" />
+
 </menu>

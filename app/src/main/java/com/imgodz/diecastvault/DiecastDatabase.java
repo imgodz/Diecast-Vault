@@ -10,16 +10,22 @@ import androidx.room.RoomDatabase;
 @Database(entities = {Diecast.class}, version = 1, exportSchema = true)
 public abstract class DiecastDatabase extends RoomDatabase {
 
-    private static DiecastDatabase instance;
+    private static volatile DiecastDatabase instance;
 
     public abstract DiecastDAO getDiecastDAO();
 
 
-    public static synchronized DiecastDatabase getInstance(Context context) {
+    public static DiecastDatabase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(),
-                            DiecastDatabase.class, "diecast_database")
-                            .build();
+            synchronized (DiecastDatabase.class) {
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
+                            context.getApplicationContext(),
+                            DiecastDatabase.class,
+                            "diecast_database"
+                    ).build();
+                }
+            }
         }
         return instance;
     }
