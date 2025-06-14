@@ -93,6 +93,12 @@ public class AddDiecast extends AppCompatActivity {
         diecastViewModel = new ViewModelProvider(this).get(DiecastviewModel.class);
 
         buttonSave.setOnClickListener(v -> {
+
+            if (imageUri == null) {
+                Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             String name = editTextName.getText().toString().trim();
             String modelMaker = editTextModelMaker.getText().toString().trim();
             String releaseInfo = editTextReleaseInfo.getText().toString().trim();
