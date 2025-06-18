@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,7 +62,6 @@ public class DiecastDetailActivity extends AppCompatActivity {
     private DiecastviewModel diecastViewModel;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +93,6 @@ public class DiecastDetailActivity extends AppCompatActivity {
         int diecastId = getIntent().getIntExtra("DIECAST_ID", -1);
 
         diecastViewModel = new ViewModelProvider(this).get(DiecastviewModel.class);
-
 
 
         if (diecastId != -1) {
@@ -263,6 +262,7 @@ public class DiecastDetailActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar_subsub, menu);
         return true;
     }
+
     private void showImagePickerDialog() {
         String[] options = {"Gallery"};
 
@@ -368,6 +368,7 @@ public class DiecastDetailActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void showInforDialog() {
         try {
             // Get version info
@@ -403,9 +404,18 @@ public class DiecastDetailActivity extends AppCompatActivity {
                     .show();
         }
     }
+
+    double cardWidth = 0.7; // percent of screen width
+
+
     @SuppressLint("SetTextI18n")
     private void showDiecastCard(Diecast diecast) {
+        // Inflate the card view
         View cardView = LayoutInflater.from(this).inflate(R.layout.view_diecast_card, null);
+
+        // Set a reasonable maximum width for the card (adjust as needed)
+        int maxCardWidth = (int) (getResources().getDisplayMetrics().widthPixels * cardWidth);
+        cardView.setLayoutParams(new ViewGroup.LayoutParams(maxCardWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         ImageView cardImage = cardView.findViewById(R.id.cardImage);
         TextView cardName = cardView.findViewById(R.id.cardName);
@@ -436,10 +446,13 @@ public class DiecastDetailActivity extends AppCompatActivity {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this, R.style.DialogTheme_BlackTeal);
         builder.setView(cardView)
                 .setPositiveButton("Save", (dialog, which) -> saveCardAsImage(cardView, new SaveCallback() {
-                    @Override public void onImageSaved(Uri uri) {
+                    @Override
+                    public void onImageSaved(Uri uri) {
                         Toast.makeText(DiecastDetailActivity.this, "Saved to gallery", Toast.LENGTH_SHORT).show();
                     }
-                    @Override public void onSaveFailed() {
+
+                    @Override
+                    public void onSaveFailed() {
                         Toast.makeText(DiecastDetailActivity.this, "Save failed", Toast.LENGTH_SHORT).show();
                     }
                 }))
@@ -449,11 +462,9 @@ public class DiecastDetailActivity extends AppCompatActivity {
     }
 
     private void shareCard(View view) {
-        // 1. First save the image (reusing your existing method)
         saveCardAsImage(view, new SaveCallback() {
             @Override
             public void onImageSaved(Uri imageUri) {
-                // 2. After saving, immediately share it
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("image/png");
                 shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
@@ -471,13 +482,10 @@ public class DiecastDetailActivity extends AppCompatActivity {
         });
     }
 
-    // Modified version of your save method with callback
     private void saveCardAsImage(View view, SaveCallback callback) {
         try {
-            // Your existing bitmap creation and watermarking code...
-            Bitmap watermarkedBitmap = createWatermarkedBitmap(view);
+            Bitmap bitmap = createBitmapFromView(view);
 
-            // Save using MediaStore
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.DISPLAY_NAME, "Diecast_Share_" + System.currentTimeMillis() + ".png");
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
@@ -486,52 +494,58 @@ public class DiecastDetailActivity extends AppCompatActivity {
             Uri imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
             try (OutputStream outputStream = getContentResolver().openOutputStream(imageUri)) {
-                watermarkedBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                callback.onImageSaved(imageUri);  // Notify success with URI
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                callback.onImageSaved(imageUri);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            callback.onSaveFailed();  // Notify failure
+            callback.onSaveFailed();
         }
     }
 
-    private Bitmap createWatermarkedBitmap(View view) {
-        // Measure and layout the view
-        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+    private Bitmap createBitmapFromView(View view) {
+        // First measure with maximum possible width
+        int maxWidth = getResources().getDisplayMetrics().widthPixels;
 
-        // Create the bitmap from the view
-        Bitmap originalBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(originalBitmap);
+        // Measure with AT_MOST to allow proper text wrapping
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(maxWidth, View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        );
+
+        // Get the measured dimensions
+        int measuredWidth = view.getMeasuredWidth();
+        int measuredHeight = view.getMeasuredHeight();
+
+        // Check if footer is being cut off
+        TextView footer = view.findViewById(R.id.cardFooter);
+        if (footer != null && footer.getVisibility() == View.VISIBLE) {
+            // Add extra space for footer if needed
+            measuredHeight += footer.getMeasuredHeight() + footer.getPaddingTop() + footer.getPaddingBottom();
+        }
+
+        // Create bitmap with measured dimensions plus some padding
+        Bitmap bitmap = Bitmap.createBitmap(
+                measuredWidth + 40, // Extra padding for safety
+                measuredHeight + 20, // Extra padding for footer
+                Bitmap.Config.ARGB_8888
+        );
+
+        Canvas canvas = new Canvas(bitmap);
+
+        // Re-measure with exact dimensions
+        view.measure(
+                View.MeasureSpec.makeMeasureSpec(bitmap.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(bitmap.getHeight(), View.MeasureSpec.EXACTLY)
+        );
+
+        // Layout with the final dimensions
+        view.layout(0, 0, bitmap.getWidth(), bitmap.getHeight());
         view.draw(canvas);
 
-        // Add watermark at bottom-right
-        String watermark = "Created from Diecast Vault";
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#B3B3B3")); // Light gray
-        paint.setTextSize(32); // Watermark text size
-        paint.setAntiAlias(true);
-
-        float padding = 16f;
-        float textWidth = paint.measureText(watermark);
-        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
-
-        float x = originalBitmap.getWidth() - textWidth - padding;
-        float y = originalBitmap.getHeight() - padding - fontMetrics.bottom;
-
-        canvas.drawText(watermark, x, y, paint);
-
-        // --- Resize to fixed rectangular card size ---
-        int targetWidth = 580;
-        int targetHeight = 640;  // You can tweak this for the shape you want
-
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true);
-
-        return resizedBitmap;
+        return bitmap;
     }
 
-    // Helper interface for callbacks
     interface SaveCallback {
         void onImageSaved(Uri imageUri);
         void onSaveFailed();

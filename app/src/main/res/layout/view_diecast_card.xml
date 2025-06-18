@@ -61,7 +61,16 @@
         android:id="@+id/cardPrice"
         android:text="Price and Date"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="24dp" />
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/cardFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created From Diecast Vault"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp" />
 
 </LinearLayout>
